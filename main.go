@@ -6,6 +6,25 @@ import (
 	"net/http"
 )
 
+func postNewContact(w http.ResponseWriter, r *http.Request) {
+
+	err := r.ParseForm()
+
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	name := r.PostForm.Get("name")
+	email := r.PostForm.Get("email")
+	phone := r.PostForm.Get("phone")
+
+	log.Println("name", name, "email", email, "phone", phone)
+
+	http.Redirect(w, r, "/contacts", http.StatusSeeOther)
+}
+
 func showPageListContacts(w http.ResponseWriter, r *http.Request) {
 	files := []string{
 		"./ui/html/base.html",
@@ -53,6 +72,9 @@ func main() {
 
 	mux.HandleFunc("GET /contacts", showPageListContacts)
 	mux.HandleFunc("GET /fcontacts", showPageFormContacts)
+
+	// api V1
+	mux.HandleFunc("POST /api/v1/contacts", postNewContact)
 
 	log.Println("Starting server on 4000")
 	err := http.ListenAndServe(":4000", mux)

@@ -1,4 +1,26 @@
 {{define "main"}}
 <h2>Contacts Form</h2>
 
+<form method="post" action="/api/v1/contacts">
+
+    <div>
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name">
+    </div>
+
+    <div>
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email">
+    </div>
+
+    <div>
+        <label for="phone">Phone:</label>
+        <input type="tel" name="phone" id="phone">
+    </div>
+
+    <div>
+        <button type="submit">Save</button>
+    </div>
+</form>
+
 {{end}}
