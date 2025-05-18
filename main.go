@@ -1,16 +1,51 @@
 package main
 
 import (
+	"html/template"
 	"log"
 	"net/http"
 )
 
 func showPageListContacts(w http.ResponseWriter, r *http.Request) {
-	log.Println("show page to list contacts")
+	files := []string{
+		"./ui/html/base.html",
+		"./ui/html/pages/contacts.html",
+	}
+
+	ts, err := template.ParseFiles(files...)
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	err = ts.ExecuteTemplate(w, "base", nil)
+	if err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
 }
 
 func showPageFormContacts(w http.ResponseWriter, r *http.Request) {
-	log.Println("Show page to add or edit contact")
+	files := []string{
+		"./ui/html/base.html",
+		"./ui/html/pages/fcontacts.html",
+	}
+
+	ts, err := template.ParseFiles(files...)
+
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	err = ts.ExecuteTemplate(w, "base", nil)
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
 }
 
 func main() {

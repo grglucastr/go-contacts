@@ -1,0 +1,20 @@
+{{define "base"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacts</title>
+</head>
+<body>
+    <h1>Online Contacts Book</h1>
+    <nav>
+        <ul>
+            <li><a href="/contacts">Home</a></li>
+            <li><a href="/fcontacts">Add New</a></li>
+        </ul>
+    </nav>
+    {{template "main"}}
+</body>
+</html>
+{{end}}
