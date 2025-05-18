@@ -25,6 +25,10 @@ func postNewContact(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/contacts", http.StatusSeeOther)
 }
 
+func showPageIndex(w http.ResponseWriter, r *http.Request) {
+	http.Redirect(w, r, "/contacts", http.StatusSeeOther)
+}
+
 func showPageListContacts(w http.ResponseWriter, r *http.Request) {
 	files := []string{
 		"./ui/html/base.html",
@@ -70,6 +74,7 @@ func showPageFormContacts(w http.ResponseWriter, r *http.Request) {
 func main() {
 	mux := http.NewServeMux()
 
+	mux.HandleFunc("GET /", showPageIndex)
 	mux.HandleFunc("GET /contacts", showPageListContacts)
 	mux.HandleFunc("GET /fcontacts", showPageFormContacts)
 
