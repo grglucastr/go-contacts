@@ -6,6 +6,17 @@ import (
 	"net/http"
 )
 
+type Contact struct {
+	ID    int32
+	Name  string
+	Phone string
+	Email string
+}
+
+type templateData struct {
+	Contacts []Contact
+}
+
 func postNewContact(w http.ResponseWriter, r *http.Request) {
 
 	err := r.ParseForm()
@@ -42,7 +53,15 @@ func showPageListContacts(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = ts.ExecuteTemplate(w, "base", nil)
+	contact := Contact{ID: 123, Name: "asfsadfas", Email: "sadfsadf", Phone: "21312321"}
+	contacts := []Contact{}
+	contacts = append(contacts, contact)
+
+	data := &templateData{
+		Contacts: contacts,
+	}
+
+	err = ts.ExecuteTemplate(w, "base", data)
 	if err != nil {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
