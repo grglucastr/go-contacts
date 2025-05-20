@@ -4,18 +4,9 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+
+	"github.com/grglucastr/go-contacts/internal/models"
 )
-
-type Contact struct {
-	ID    int32
-	Name  string
-	Phone string
-	Email string
-}
-
-type templateData struct {
-	Contacts []Contact
-}
 
 func postNewContact(w http.ResponseWriter, r *http.Request) {
 
@@ -53,8 +44,8 @@ func showPageListContacts(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	contact := Contact{ID: 123, Name: "asfsadfas", Email: "sadfsadf", Phone: "21312321"}
-	contacts := []Contact{}
+	contact := models.Contact{ID: 123, Name: "asfsadfas", Email: "sadfsadf", Phone: "21312321"}
+	contacts := []models.Contact{}
 	contacts = append(contacts, contact)
 
 	data := &templateData{
@@ -63,6 +54,7 @@ func showPageListContacts(w http.ResponseWriter, r *http.Request) {
 
 	err = ts.ExecuteTemplate(w, "base", data)
 	if err != nil {
+		log.Println(err.Error())
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
