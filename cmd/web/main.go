@@ -2,13 +2,32 @@ package main
 
 import (
 	"database/sql"
-	"time"
 	"log"
 	"net/http"
+	"os"
+
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/grglucastr/go-contacts/internal/models"
 )
 
+type application struct {
+	contacts *models.ContactModel
+}
+
 func main() {
+
+	db, err := openDB()
+
+	if err != nil {
+		log.Fatal(err)
+		os.Exit(1)
+	}
+
+	defer db.Close()
+
+	app := &application{contacts: &models.ContactModel{DB: db}}
+	log.Println("App loading", app)
+
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("GET /", showPageIndex)
@@ -16,24 +35,21 @@ func main() {
 	mux.HandleFunc("GET /fcontacts", showPageFormContacts)
 
 	// api V1
-	mux.HandleFunc("POST /api/v1/contacts", postNewContact)
+	mux.HandleFunc("POST /api/v1/contacts", app.postNewContact)
 
 	log.Println("Starting server on 4000")
-	err := http.ListenAndServe(":4000", mux)
+	err = http.ListenAndServe(":4000", mux)
 
 	log.Fatal(err)
 }
 
+func openDB() (*sql.DB, error) {
 
-func openDB(){
-
-	db, err := sql.Open("mysql", "web_go_contacts@/go_contacts")
+	db, err := sql.Open("mysql", "web_go_contacts:pass123@/go_contacts")
 
 	if err != nil {
-		log.Fatal(err)
-		panic(err)
+		return nil, err
 	}
 
-	
-
+	return db, nil
 }

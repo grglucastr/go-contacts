@@ -8,7 +8,7 @@ import (
 	"github.com/grglucastr/go-contacts/internal/models"
 )
 
-func postNewContact(w http.ResponseWriter, r *http.Request) {
+func (app *application) postNewContact(w http.ResponseWriter, r *http.Request) {
 
 	err := r.ParseForm()
 
@@ -23,6 +23,8 @@ func postNewContact(w http.ResponseWriter, r *http.Request) {
 	phone := r.PostForm.Get("phone")
 
 	log.Println("name", name, "email", email, "phone", phone)
+
+	app.contacts.Insert(name, phone, email)
 
 	http.Redirect(w, r, "/contacts", http.StatusSeeOther)
 }
