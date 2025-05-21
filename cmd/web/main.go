@@ -53,3 +53,5 @@ func openDB() (*sql.DB, error) {
 
 	return db, nil
 }
+
+// dude nothing special here
