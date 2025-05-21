@@ -31,3 +31,33 @@ func (m *ContactModel) Insert(name string, phone string, email string) (int, err
 
 	return int(id), nil
 }
+
+func (m *ContactModel) ListAll() ([]Contact, error) {
+
+	stmt := "SELECT id, name, phone, email FROM contacts"
+
+	rows, err := m.DB.Query(stmt)
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	var contacts []Contact
+
+	for rows.Next() {
+		var contact Contact
+		err = rows.Scan(&contact.ID, &contact.Name, &contact.Phone, &contact.Email)
+
+		if err != nil {
+			return nil, err
+		}
+		contacts = append(contacts, contact)
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return contacts, nil
+}

@@ -4,8 +4,6 @@ import (
 	"html/template"
 	"log"
 	"net/http"
-
-	"github.com/grglucastr/go-contacts/internal/models"
 )
 
 func (app *application) postNewContact(w http.ResponseWriter, r *http.Request) {
@@ -33,7 +31,7 @@ func showPageIndex(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/contacts", http.StatusSeeOther)
 }
 
-func showPageListContacts(w http.ResponseWriter, r *http.Request) {
+func (app *application) showPageListContacts(w http.ResponseWriter, r *http.Request) {
 	files := []string{
 		"./ui/html/base.html",
 		"./ui/html/pages/contacts.html",
@@ -46,9 +44,12 @@ func showPageListContacts(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	contact := models.Contact{ID: 123, Name: "asfsadfas", Email: "sadfsadf", Phone: "21312321"}
-	contacts := []models.Contact{}
-	contacts = append(contacts, contact)
+	contacts, err := app.contacts.ListAll()
+	if err != nil {
+		log.Panicln(err.Error())
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
 
 	data := &templateData{
 		Contacts: contacts,

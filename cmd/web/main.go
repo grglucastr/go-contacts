@@ -31,7 +31,7 @@ func main() {
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("GET /", showPageIndex)
-	mux.HandleFunc("GET /contacts", showPageListContacts)
+	mux.HandleFunc("GET /contacts", app.showPageListContacts)
 	mux.HandleFunc("GET /fcontacts", showPageFormContacts)
 
 	// api V1
