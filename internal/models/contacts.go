@@ -1,6 +1,9 @@
 package models
 
-import "database/sql"
+import (
+	"database/sql"
+	"errors"
+)
 
 type Contact struct {
 	ID    int32
@@ -60,4 +63,26 @@ func (m *ContactModel) ListAll() ([]Contact, error) {
 	}
 
 	return contacts, nil
+}
+
+func (m *ContactModel) FindById(id int) (Contact, error) {
+
+	stmt := "SELECT id, name, phone, email FROM contacts WHERE id = ?"
+
+	row := m.DB.QueryRow(stmt, id)
+
+	var contact Contact
+
+	err := row.Scan(&contact.ID, &contact.Name, &contact.Phone, &contact.Email)
+
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return Contact{}, sql.ErrNoRows
+		} else {
+			return Contact{}, err
+		}
+	}
+
+	return contact, nil
+
 }
