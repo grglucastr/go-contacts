@@ -32,7 +32,7 @@ func main() {
 
 	mux.HandleFunc("GET /", showPageIndex)
 	mux.HandleFunc("GET /contacts", app.showPageListContacts)
-	mux.HandleFunc("GET /fcontacts", showPageFormContacts)
+	mux.HandleFunc("GET /fcontacts", app.showPageFormContacts)
 
 	// api V1
 	mux.HandleFunc("POST /api/v1/contacts", app.postNewContact)

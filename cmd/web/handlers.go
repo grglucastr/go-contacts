@@ -4,6 +4,9 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"strconv"
+
+	"github.com/grglucastr/go-contacts/internal/models"
 )
 
 func (app *application) postNewContact(w http.ResponseWriter, r *http.Request) {
@@ -63,7 +66,36 @@ func (app *application) showPageListContacts(w http.ResponseWriter, r *http.Requ
 	}
 }
 
-func showPageFormContacts(w http.ResponseWriter, r *http.Request) {
+func (app *application) showPageFormContacts(w http.ResponseWriter, r *http.Request) {
+
+	pId := r.URL.Query().Get("id")
+
+	var contact models.Contact
+	if len(pId) > 0 {
+		id, err := strconv.Atoi(pId)
+
+		if err != nil {
+			log.Println(err.Error())
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+			return
+		}
+
+		contact, err = app.contacts.FindById(id)
+
+		if err != nil {
+			log.Println(err.Error())
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+			return
+		}
+
+	} else {
+		contact = models.Contact{}
+	}
+
+	data := &templateData{
+		Contact: contact,
+	}
+
 	files := []string{
 		"./ui/html/base.html",
 		"./ui/html/pages/fcontacts.html",
@@ -77,7 +109,7 @@ func showPageFormContacts(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = ts.ExecuteTemplate(w, "base", nil)
+	err = ts.ExecuteTemplate(w, "base", data)
 	if err != nil {
 		log.Println(err.Error())
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
