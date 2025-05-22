@@ -18,8 +18,12 @@
         <input type="tel" name="phone" id="phone" value="{{.Contact.Phone}}">
     </div>
 
-    <div>
+    <div style="display: flex; justify-content: space-between; width: 20%;">
         <button type="submit">Save</button>
+        
+        {{if .Contact.ID}}
+            <button type="button"><a href="/dcontacts?id={{.Contact.ID}}">Delete</a></button>
+        {{end}}
     </div>
 </form>
 
