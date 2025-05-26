@@ -22,11 +22,25 @@ func (app *application) postNewContact(w http.ResponseWriter, r *http.Request) {
 	name := r.PostForm.Get("name")
 	email := r.PostForm.Get("email")
 	phone := r.PostForm.Get("phone")
+	pId := r.PostForm.Get("id")
 
 	log.Println("name", name, "email", email, "phone", phone)
 
-	app.contacts.Insert(name, phone, email)
+	if len(pId) == 0 {
+		app.contacts.Insert(name, phone, email)
+		http.Redirect(w, r, "/contacts", http.StatusSeeOther)
+		return
+	}
 
+	log.Println("id ", pId)
+	id, err := strconv.Atoi(pId)
+
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+	}
+
+	app.contacts.Update(name, phone, email, id)
 	http.Redirect(w, r, "/contacts", http.StatusSeeOther)
 }
 

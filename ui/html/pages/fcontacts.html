@@ -2,7 +2,10 @@
 <h2>Contacts Form</h2>
 
 <form method="post" action="/api/v1/contacts">
-
+    {{if .Contact.ID}}
+        <input type="hidden" name="id" value="{{.Contact.ID}}" />
+    {{end}}
+    
     <div>
         <label for="name">Name:</label>
         <input type="text" name="name" id="name" value="{{.Contact.Name}}">

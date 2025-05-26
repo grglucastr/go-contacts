@@ -87,8 +87,7 @@ func (m *ContactModel) FindById(id int) (Contact, error) {
 
 }
 
-
-func (m *ContactModel) DeleteById(id int) (bool, error){
+func (m *ContactModel) DeleteById(id int) (bool, error) {
 	stmt := "DELETE FROM contacts WHERE id = ?"
 
 	_, err := m.DB.Exec(stmt, id)
@@ -98,5 +97,18 @@ func (m *ContactModel) DeleteById(id int) (bool, error){
 	}
 
 	return true, nil
+
+}
+
+func (m *ContactModel) Update(name, phone, email string, id int) (int, error) {
+
+	stmt := "UPDATE contacts SET name = ?, phone = ?, email = ? WHERE id = ?"
+
+	_, err := m.DB.Exec(stmt, name, phone, email, id)
+	if err != nil {
+		return 0, err
+	}
+
+	return 1, nil
 
 }
