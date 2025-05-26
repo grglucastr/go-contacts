@@ -116,3 +116,24 @@ func (app *application) showPageFormContacts(w http.ResponseWriter, r *http.Requ
 		return
 	}
 }
+
+func (app *application) deleteNewContact(w http.ResponseWriter, r *http.Request) {
+
+	pId := r.URL.Query().Get("id")
+
+	id, err := strconv.Atoi(pId)
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	_, err = app.contacts.DeleteById(id)
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	http.Redirect(w, r, "/", http.StatusSeeOther)
+}

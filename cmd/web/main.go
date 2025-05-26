@@ -36,6 +36,7 @@ func main() {
 
 	// api V1
 	mux.HandleFunc("POST /api/v1/contacts", app.postNewContact)
+	mux.HandleFunc("GET /api/v1/dcontacts", app.deleteNewContact)
 
 	log.Println("Starting server on 4000")
 	err = http.ListenAndServe(":4000", mux)
