@@ -1,3 +1,11 @@
+{{define "title"}}
+    {{if .Contact.ID}}
+        Edit - {{.Contact.Name}}
+    {{else}}
+        New Contact
+    {{end}}
+{{end}}
+
 {{define "main"}}
 <h2>Contacts Form</h2>
 
