@@ -7,7 +7,7 @@ import (
 	"os"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/grglucastr/go-contacts/internal/models"
+	"github.com/grglucastr/go-contacts/internal/models/v1"
 )
 
 type application struct {

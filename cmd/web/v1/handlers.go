@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/grglucastr/go-contacts/internal/models"
+	"github.com/grglucastr/go-contacts/internal/models/v1"
 )
 
 func (app *application) postNewContact(w http.ResponseWriter, r *http.Request) {
@@ -50,8 +50,8 @@ func showPageIndex(w http.ResponseWriter, r *http.Request) {
 
 func (app *application) showPageListContacts(w http.ResponseWriter, r *http.Request) {
 	files := []string{
-		"./ui/html/base.html",
-		"./ui/html/pages/contacts.html",
+		"./ui/html/v1/base.html",
+		"./ui/html/v1/pages/contacts.html",
 	}
 
 	ts, err := template.ParseFiles(files...)
@@ -111,8 +111,8 @@ func (app *application) showPageFormContacts(w http.ResponseWriter, r *http.Requ
 	}
 
 	files := []string{
-		"./ui/html/base.html",
-		"./ui/html/pages/fcontacts.html",
+		"./ui/html/v1/base.html",
+		"./ui/html/v1/pages/fcontacts.html",
 	}
 
 	ts, err := template.ParseFiles(files...)
