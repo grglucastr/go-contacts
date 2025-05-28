@@ -8,18 +8,15 @@ import (
 	"github.com/gorilla/mux"
 )
 
+type application struct {
+}
+
 func main() {
 
-	mux := mux.NewRouter()
-
-	//view routes
-	mux.HandleFunc("/contacts", showPageListContacts).Methods("GET")
-	mux.HandleFunc("/contacts/{id}", showPageContactInfos).Methods("GET")
-	mux.HandleFunc("/fcontacts", showPageFormContact).Methods("GET")
-	mux.HandleFunc("/fcontacts/{id}", showPageFormContact).Methods("GET")
+	app := &application{}
 
 	fmt.Println("Loading server on port :4000")
-	err := http.ListenAndServe(":4000", mux)
+	err := http.ListenAndServe(":4000", app.routes())
 
 	if err != nil {
 		log.Panic(err.Error())
