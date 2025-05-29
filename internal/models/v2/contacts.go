@@ -5,6 +5,7 @@ import "database/sql"
 type Contact struct {
 	ID             int32  `form:"id"`
 	Name           string `form:"name"`
+	PixKey         string `form:"pix_key"`
 	RelationshipID int32  `form:"relationship_id"`
 }
 
