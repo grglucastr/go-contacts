@@ -1,6 +1,41 @@
 {{define "main"}}
 <h2>Contacts</h2>
 
-list contacts table here
+{{if .Contacts }}
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Pix Key</th>
+            <th>Relationship Level</th>
+        </tr>
+    </thead>
+
+    <tbody>
+    {{ range .Contacts }}
+        <tr>
+            <td>{{.ID}}</td>
+            <td>{{.Name}}</td>
+            <td>{{.PixKey}}</td>
+            <td>{{.RelationshipID}}</td>
+            <td><a href="#">Edit</a></td>
+        </tr>
+    {{end}}
+    </tbody>
+
+    <tfoot>
+        <tr>
+            <td colspan="4" style="text-align: center;">
+                <em>All contacts</em>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+{{else}}
+<p>
+    <em>No contacts found.</em>
+</p>
+{{end}}
 
 {{end}}

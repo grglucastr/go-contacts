@@ -8,11 +8,11 @@ import (
 	"os"
 
 	_ "github.com/go-sql-driver/mysql"
-	v2 "github.com/grglucastr/go-contacts/internal/models/v2"
+	"github.com/grglucastr/go-contacts/internal/models/v2"
 )
 
 type application struct {
-	ContactModel *v2.ContactModel
+	ContactModel *models.ContactModel
 }
 
 func main() {
@@ -26,7 +26,7 @@ func main() {
 	defer db.Close()
 
 	app := &application{
-		ContactModel: &v2.ContactModel{DB: db},
+		ContactModel: &models.ContactModel{DB: db},
 	}
 
 	fmt.Println("Loading server on port :4000")

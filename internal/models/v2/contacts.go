@@ -1,4 +1,4 @@
-package v2
+package models
 
 import "database/sql"
 
@@ -32,7 +32,7 @@ func (m *ContactModel) Insert(name string, relationshipID int32) (int64, error) 
 
 func (m *ContactModel) ListAllContacts() ([]Contact, error) {
 
-	stmt := "SELECT id, name, relationship_id FROM contacts"
+	stmt := "SELECT id, name, pix_key, relationship_id FROM contacts"
 	rows, err := m.DB.Query(stmt)
 	if err != nil {
 		return nil, err
@@ -44,7 +44,7 @@ func (m *ContactModel) ListAllContacts() ([]Contact, error) {
 	for rows.Next() {
 
 		var contact Contact
-		err = rows.Scan(&contact.ID, &contact.Name, &contact.RelationshipID)
+		err = rows.Scan(&contact.ID, &contact.Name, &contact.PixKey, &contact.RelationshipID)
 
 		if err != nil {
 			return nil, err
@@ -57,12 +57,12 @@ func (m *ContactModel) ListAllContacts() ([]Contact, error) {
 
 func (m *ContactModel) GetContactById(id int32) (Contact, error) {
 
-	stmt := "SELECT id, name, relationship_id FROM contacts WHERE id := ?"
+	stmt := "SELECT id, name, pix_key, relationship_id FROM contacts WHERE id := ?"
 
 	result := m.DB.QueryRow(stmt, id)
 
 	var contact Contact
-	err := result.Scan(&contact.ID, &contact.Name, &contact.RelationshipID)
+	err := result.Scan(&contact.ID, &contact.Name, &contact.PixKey, &contact.RelationshipID)
 
 	if err != nil {
 		return Contact{}, err

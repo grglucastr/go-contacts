@@ -23,7 +23,18 @@ func (app *application) showPageListContacts(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
-	err = ts.ExecuteTemplate(w, "base", nil)
+	contacts, err := app.ContactModel.ListAllContacts()
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	templateData := &templateData{
+		Contacts: contacts,
+	}
+
+	err = ts.ExecuteTemplate(w, "base", templateData)
 	if err != nil {
 		log.Println(err.Error())
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
