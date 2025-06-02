@@ -6,6 +6,7 @@ func (app *application) routes() *mux.Router {
 	mux := mux.NewRouter()
 
 	//view routes
+	mux.HandleFunc("/", app.index).Methods("GET")
 	mux.HandleFunc("/contacts", app.showPageListContacts).Methods("GET")
 	mux.HandleFunc("/contacts/{id}", app.showPageContactInfos).Methods("GET")
 	mux.HandleFunc("/fcontacts", app.showPageFormContact).Methods("GET")

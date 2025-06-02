@@ -9,6 +9,10 @@ import (
 	"github.com/gorilla/mux"
 )
 
+func (app *application) index(w http.ResponseWriter, r *http.Request) {
+	http.Redirect(w, r, "/contacts", http.StatusSeeOther)
+}
+
 func (app *application) showPageListContacts(w http.ResponseWriter, r *http.Request) {
 
 	files := []string{
