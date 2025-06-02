@@ -13,11 +13,11 @@ type ContactModel struct {
 	DB *sql.DB
 }
 
-func (m *ContactModel) Insert(name string, relationshipID int32) (int64, error) {
+func (m *ContactModel) Insert(name string, pixKey string, relationshipID int32) (int64, error) {
 
-	stmt := "INSERT INTO contacts (name, relationship_id) VALUE (?, ?)"
+	stmt := "INSERT INTO contacts (name, pix_key, relationship_id) VALUE (?, ?, ?)"
 
-	result, err := m.DB.Exec(stmt, name, relationshipID)
+	result, err := m.DB.Exec(stmt, name, pixKey, relationshipID)
 	if err != nil {
 		return 0, err
 	}

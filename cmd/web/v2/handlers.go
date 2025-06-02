@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/gorilla/mux"
 )
@@ -101,4 +102,30 @@ func (app *application) getContactById(w http.ResponseWriter, r *http.Request) {
 
 func (app *application) addContact(w http.ResponseWriter, r *http.Request) {
 
+	err := r.ParseForm()
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	name := r.Form.Get("name")
+	pixKey := r.Form.Get("pix_key")
+	relationship_id := r.Form.Get("relationship_id")
+
+	rel_id, err := strconv.Atoi(relationship_id)
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	_, err = app.ContactModel.Insert(name, pixKey, int32(rel_id))
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	http.Redirect(w, r, "/contacts", http.StatusSeeOther)
 }

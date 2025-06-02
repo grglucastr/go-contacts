@@ -10,13 +10,13 @@
             </div>
 
             <div>
-                <label for="pixkey">Pix Key:</label>
-                <input type="text" name="pixkey" id="pixkey">
+                <label for="pix_key">Pix Key:</label>
+                <input type="text" name="pix_key" id="pix_key">
             </div>
 
             <div>
-                <label for="relation">Relation:</label>
-                <select name="relationship_id" id="relation">
+                <label for="relationship_id">Relation:</label>
+                <select name="relationship_id" id="relationship_id">
                     {{range .Relationships}}
                         <option value="{{.ID}}">{{.Name}}</option>
                     {{end}}
