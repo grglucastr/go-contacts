@@ -57,7 +57,7 @@ func (m *ContactModel) ListAllContacts() ([]Contact, error) {
 
 func (m *ContactModel) GetContactById(id int32) (Contact, error) {
 
-	stmt := "SELECT id, name, pix_key, relationship_id FROM contacts WHERE id := ?"
+	stmt := "SELECT id, name, pix_key, relationship_id FROM contacts WHERE id = ?"
 
 	result := m.DB.QueryRow(stmt, id)
 

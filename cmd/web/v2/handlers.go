@@ -80,8 +80,25 @@ func (app *application) showPageFormContact(w http.ResponseWriter, r *http.Reque
 	}
 
 	if len(cId) > 0 {
-		fmt.Fprintln(w, "Edit contact form", data)
-		return
+		conId, err := strconv.Atoi(cId)
+		if err != nil {
+			log.Println(err.Error())
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		contact, err := app.ContactModel.GetContactById(int32(conId))
+
+		if err != nil {
+			log.Println(err.Error())
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		data = &templateData{
+			Relationships: relationships,
+			Contact:       contact,
+		}
 	}
 
 	err = ts.ExecuteTemplate(w, "base", data)
