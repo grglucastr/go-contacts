@@ -52,15 +52,43 @@ func (app *application) showPageContactInfos(w http.ResponseWriter, r *http.Requ
 
 func (app *application) showPageFormContact(w http.ResponseWriter, r *http.Request) {
 
-	vars := mux.Vars(r)
-	cId := vars["id"]
+	files := []string{
+		"./ui/html/v2/pages/fcontacts.html",
+		"./ui/html/v2/base.html",
+	}
 
-	if len(cId) > 0 {
-		fmt.Fprintln(w, "Edit contact form")
+	ts, err := template.ParseFiles(files...)
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	fmt.Fprintln(w, "New contact form")
+	vars := mux.Vars(r)
+	cId := vars["id"]
+
+	relationships, err := app.RelationshipModel.ListAll()
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	data := &templateData{
+		Relationships: relationships,
+	}
+
+	if len(cId) > 0 {
+		fmt.Fprintln(w, "Edit contact form", data)
+		return
+	}
+
+	err = ts.ExecuteTemplate(w, "base", data)
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 }
 
 func (app *application) listContacts(w http.ResponseWriter, r *http.Request) {

@@ -12,7 +12,8 @@ import (
 )
 
 type application struct {
-	ContactModel *models.ContactModel
+	ContactModel      *models.ContactModel
+	RelationshipModel *models.RelationshipModel
 }
 
 func main() {
@@ -26,7 +27,8 @@ func main() {
 	defer db.Close()
 
 	app := &application{
-		ContactModel: &models.ContactModel{DB: db},
+		ContactModel:      &models.ContactModel{DB: db},
+		RelationshipModel: &models.RelationshipModel{DB: db},
 	}
 
 	fmt.Println("Loading server on port :4000")

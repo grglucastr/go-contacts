@@ -1,0 +1,32 @@
+{{define "main"}}
+    <div class="wrapper">
+        <h2>New Contact</h2>
+
+        <form method="post" action="/api/v2/contacts">
+
+            <div>
+                <label for="name">Name:</label>
+                <input type="text" name="name" id="name">
+            </div>
+
+            <div>
+                <label for="pixkey">Pix Key:</label>
+                <input type="text" name="pixkey" id="pixkey">
+            </div>
+
+            <div>
+                <label for="relation">Relation:</label>
+                <select name="relationship_id" id="relation">
+                    {{range .Relationships}}
+                        <option value="{{.ID}}">{{.Name}}</option>
+                    {{end}}
+                </select>
+            </div>
+            
+            <div>
+                <button type="submit">Save</button>
+            </div>
+
+        </form>
+    </div>
+{{end}}

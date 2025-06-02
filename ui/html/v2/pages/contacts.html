@@ -1,41 +1,44 @@
 {{define "main"}}
-<h2>Contacts</h2>
+<div class="wrapper">
+    <h2>Contacts</h2>
+    <p>
+        <a href="/fcontacts">Add new</a>
+    </p>
+    {{if .Contacts }}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Pix Key</th>
+                    <th>Relationship Level</th>
+                </tr>
+            </thead>
 
-{{if .Contacts }}
-<table>
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Pix Key</th>
-            <th>Relationship Level</th>
-        </tr>
-    </thead>
+            <tbody>
+            {{ range .Contacts }}
+                <tr>
+                    <td>{{.ID}}</td>
+                    <td>{{.Name}}</td>
+                    <td>{{.PixKey}}</td>
+                    <td>{{.RelationshipID}}</td>
+                    <td><a href="#">Edit</a></td>
+                </tr>
+            {{end}}
+            </tbody>
 
-    <tbody>
-    {{ range .Contacts }}
-        <tr>
-            <td>{{.ID}}</td>
-            <td>{{.Name}}</td>
-            <td>{{.PixKey}}</td>
-            <td>{{.RelationshipID}}</td>
-            <td><a href="#">Edit</a></td>
-        </tr>
+            <tfoot>
+                <tr>
+                    <td colspan="4" style="text-align: center;">
+                        <em>All contacts</em>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    {{else}}
+        <p>
+            <em>No contacts found.</em>
+        </p>
     {{end}}
-    </tbody>
-
-    <tfoot>
-        <tr>
-            <td colspan="4" style="text-align: center;">
-                <em>All contacts</em>
-            </td>
-        </tr>
-    </tfoot>
-</table>
-{{else}}
-<p>
-    <em>No contacts found.</em>
-</p>
-{{end}}
-
+</div>
 {{end}}
