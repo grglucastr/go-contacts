@@ -3,10 +3,11 @@ package models
 import "database/sql"
 
 type Contact struct {
-	ID             int32  `form:"id"`
-	Name           string `form:"name"`
-	PixKey         string `form:"pix_key"`
-	RelationshipID int32  `form:"relationship_id"`
+	ID               int32  `form:"id"`
+	Name             string `form:"name"`
+	PixKey           string `form:"pix_key"`
+	RelationshipID   int32  `form:"relationship_id"`
+	RelationshipName string
 }
 
 type ContactModel struct {
@@ -32,7 +33,10 @@ func (m *ContactModel) Insert(name string, pixKey string, relationshipID int32) 
 
 func (m *ContactModel) ListAllContacts() ([]Contact, error) {
 
-	stmt := "SELECT id, name, pix_key, relationship_id FROM contacts"
+	stmt := `
+		SELECT c.id, c.name, c.pix_key, c.relationship_id, r.name as relationship_name FROM contacts c
+		INNER JOIN relationships r ON r.id = c.relationship_id
+	`
 	rows, err := m.DB.Query(stmt)
 	if err != nil {
 		return nil, err
@@ -44,7 +48,7 @@ func (m *ContactModel) ListAllContacts() ([]Contact, error) {
 	for rows.Next() {
 
 		var contact Contact
-		err = rows.Scan(&contact.ID, &contact.Name, &contact.PixKey, &contact.RelationshipID)
+		err = rows.Scan(&contact.ID, &contact.Name, &contact.PixKey, &contact.RelationshipID, &contact.RelationshipName)
 
 		if err != nil {
 			return nil, err
