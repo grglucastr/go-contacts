@@ -65,10 +65,14 @@ func (app *application) showPageFormContact(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	vars := mux.Vars(r)
-	cId := vars["id"]
-
 	relationships, err := app.RelationshipModel.ListAll()
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	types, err := app.TypeModel.ListAll()
 	if err != nil {
 		log.Println(err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -77,8 +81,11 @@ func (app *application) showPageFormContact(w http.ResponseWriter, r *http.Reque
 
 	data := &templateData{
 		Relationships: relationships,
+		Types:         types,
 	}
 
+	vars := mux.Vars(r)
+	cId := vars["id"]
 	if len(cId) > 0 {
 		conId, err := strconv.Atoi(cId)
 		if err != nil {
@@ -98,6 +105,7 @@ func (app *application) showPageFormContact(w http.ResponseWriter, r *http.Reque
 		data = &templateData{
 			Relationships: relationships,
 			Contact:       contact,
+			Types:         types,
 		}
 	}
 

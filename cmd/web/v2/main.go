@@ -14,6 +14,7 @@ import (
 type application struct {
 	ContactModel      *models.ContactModel
 	RelationshipModel *models.RelationshipModel
+	TypeModel         *models.TypeModel
 }
 
 func main() {
@@ -29,6 +30,7 @@ func main() {
 	app := &application{
 		ContactModel:      &models.ContactModel{DB: db},
 		RelationshipModel: &models.RelationshipModel{DB: db},
+		TypeModel:         &models.TypeModel{DB: db},
 	}
 
 	fmt.Println("Loading server on port :4000")

@@ -62,8 +62,9 @@
                     <div class="inline-element">
                         <label for="type">Type:</label>
                         <select name="type" id="type">
-                            <option value="1">Work</option>
-                            <option value="1">Personal</option>
+                            {{range .Types}}
+                                <option value="{{.ID}}">{{.Name}}</option>
+                            {{end}}
                         </select>
                     </div>
 
