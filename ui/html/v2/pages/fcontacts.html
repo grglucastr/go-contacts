@@ -11,37 +11,67 @@
         </p>
 
         <div>
-            <form method="post" action="/api/v2/contacts">
+            <fieldset>
+                <legend>General Information</legend>
+                <form method="post" action="/api/v2/contacts">
+                    <div>
+                        <label for="name">Name:</label>
+                        <input type="text" name="name" id="name" value="{{.Contact.Name}}">
+                    </div>
 
-                <div>
-                    <label for="name">Name:</label>
-                    <input type="text" name="name" id="name" value="{{.Contact.Name}}">
-                </div>
+                    <div>
+                        <label for="pix_key">Pix Key:</label>
+                        <input type="text" name="pix_key" id="pix_key" value="{{.Contact.PixKey}}">
+                    </div>
 
-                <div>
-                    <label for="pix_key">Pix Key:</label>
-                    <input type="text" name="pix_key" id="pix_key" value="{{.Contact.PixKey}}">
-                </div>
-
-                <div>
-                    <label for="relationship_id">Relation:</label>
-                    {{$global := .Contact}}
-                    <select name="relationship_id" id="relationship_id">
-                        {{range .Relationships}}
-                            {{if eq $global.RelationshipID .ID}}
-                                <option value="{{.ID}}" selected>{{.Name}}</option>
-                            {{else}}
-                                <option value="{{.ID}}">{{.Name}}</option>
+                    <div>
+                        <label for="relationship_id">Relation:</label>
+                        {{$global := .Contact}}
+                        <select name="relationship_id" id="relationship_id">
+                            {{range .Relationships}}
+                                {{if eq $global.RelationshipID .ID}}
+                                    <option value="{{.ID}}" selected>{{.Name}}</option>
+                                {{else}}
+                                    <option value="{{.ID}}">{{.Name}}</option>
+                                {{end}}
                             {{end}}
-                        {{end}}
-                    </select>
-                </div>
-                
-                <div>
-                    <button type="submit">Save</button>
-                </div>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <button type="submit">Save</button>
+                    </div>
+                </form>
+            </fieldset>
+        </div>
 
-            </form>
+        <div>
+            <fieldset>
+                <legend>Contact Details</legend>
+                <form action="">
+                    <div class="inline-element">
+                        <label for="email">E-mail:</label>
+                        <input type="email" name="email" id="email">
+                    </div>
+
+                    <div class="inline-element">
+                        <label for="phone">Phone:</label>
+                        <input type="tel" name="phone" id="phone">
+                    </div>
+
+                    <div class="inline-element">
+                        <label for="type">Type:</label>
+                        <select name="type" id="type">
+                            <option value="1">Work</option>
+                            <option value="1">Personal</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <button type="submit">Save</button>
+                    </div>
+                </form>
+            </fieldset>
         </div>
     </div>
 {{end}}
