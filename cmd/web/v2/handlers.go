@@ -146,3 +146,31 @@ func (app *application) addContact(w http.ResponseWriter, r *http.Request) {
 
 	http.Redirect(w, r, "/contacts", http.StatusSeeOther)
 }
+
+func (app *application) deleteContact(w http.ResponseWriter, r *http.Request) {
+
+	vars := mux.Vars(r)
+	cId := vars["id"]
+
+	if cId == "" {
+		log.Fatalln("Invalid contact ID")
+		http.Error(w, "Invalid contact ID", http.StatusInternalServerError)
+		return
+	}
+
+	id, err := strconv.Atoi(cId)
+	if err != nil {
+		log.Fatalln(err.Error())
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	err = app.ContactModel.DeleteContactById(int32(id))
+	if err != nil {
+		log.Fatalln(err.Error())
+		http.Error(w, "Error when delete contact", http.StatusInternalServerError)
+		return
+	}
+
+	http.Redirect(w, r, "/contacts", http.StatusSeeOther)
+}

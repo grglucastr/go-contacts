@@ -15,6 +15,7 @@ func (app *application) routes() *mux.Router {
 	// rest routes
 	mux.HandleFunc("/api/v2/contacts", app.listContacts).Methods("GET")
 	mux.HandleFunc("/api/v2/contacts/{id}", app.getContactById).Methods("GET")
+	mux.HandleFunc("/api/v2/contacts/{id}", app.getContactById).Methods("DELETE")
 	mux.HandleFunc("/api/v2/contacts", app.addContact).Methods("POST")
 
 	return mux

@@ -75,3 +75,15 @@ func (m *ContactModel) GetContactById(id int32) (Contact, error) {
 	return contact, nil
 
 }
+
+func (m *ContactModel) DeleteContactById(id int32) error {
+
+	stmt := "DELETE FROM contacts WHERE id = ?"
+
+	_, err := m.DB.Exec(stmt, id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
