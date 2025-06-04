@@ -155,6 +155,10 @@ func (app *application) addContact(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/contacts", http.StatusSeeOther)
 }
 
+func (app *application) addContactDetails(w http.ResponseWriter, r *http.Request) {
+	
+}
+
 func (app *application) deleteContact(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
