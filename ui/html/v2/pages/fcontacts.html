@@ -48,7 +48,7 @@
         <div>
             <fieldset>
                 <legend>Contact Details</legend>
-                <form action="/api/v2/contacts/{{.ID}}/details">
+                <form method="post" action="/api/v2/contacts/{{.Contact.ID}}/details">
                     <div class="inline-element">
                         <label for="email">E-mail:</label>
                         <input type="email" name="email" id="email">

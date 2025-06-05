@@ -156,7 +156,43 @@ func (app *application) addContact(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) addContactDetails(w http.ResponseWriter, r *http.Request) {
-	
+	err := r.ParseForm()
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, "Bad Request", http.StatusBadRequest)
+		return
+	}
+
+	email := r.Form.Get("email")
+	phone := r.Form.Get("phone")
+	tpId := r.Form.Get("type")
+
+	typeId, err := strconv.Atoi(tpId)
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, "Bad Request", http.StatusBadRequest)
+		return
+	}
+
+	vars := mux.Vars(r)
+	cId := vars["id"]
+
+	contactId, err := strconv.Atoi(cId)
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, "Bad Request", http.StatusBadRequest)
+		return
+	}
+
+	_, err = app.InfoModel.Insert(email, phone, typeId, contactId)
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, "Bad Request", http.StatusBadRequest)
+		return
+	}
+
+	http.Redirect(w, r, fmt.Sprintf("/fcontacts/%d", contactId), http.StatusSeeOther)
+
 }
 
 func (app *application) deleteContact(w http.ResponseWriter, r *http.Request) {

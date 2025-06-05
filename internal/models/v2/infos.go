@@ -1,0 +1,32 @@
+package models
+
+import "database/sql"
+
+type Info struct {
+	ID        int
+	Email     string
+	Phone     string
+	TypeID    int
+	ContactID int
+}
+
+type InfoModel struct {
+	DB *sql.DB
+}
+
+func (m *InfoModel) Insert(email string, phone string, typeId int, contactId int) (int, error) {
+
+	stmt := "INSERT INTO infos (email, phone, type_id, contact_id) VALUES (?, ?, ?, ?)"
+
+	result, err := m.DB.Exec(stmt, email, phone, typeId, contactId)
+	if err != nil {
+		return 0, nil
+	}
+
+	id, err := result.LastInsertId()
+	if err != nil {
+		return 0, nil
+	}
+
+	return int(id), nil
+}
