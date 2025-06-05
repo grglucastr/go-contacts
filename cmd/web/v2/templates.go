@@ -7,4 +7,5 @@ type templateData struct {
 	Contacts      []models.Contact
 	Relationships []models.Relationship
 	Types         []models.Type
+	Infos         []models.Info
 }

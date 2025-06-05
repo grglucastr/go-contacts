@@ -102,10 +102,18 @@ func (app *application) showPageFormContact(w http.ResponseWriter, r *http.Reque
 			return
 		}
 
+		infos, err := app.InfoModel.ListAllByContactsId(conId)
+		if err != nil {
+			log.Println(err.Error())
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
 		data = &templateData{
 			Relationships: relationships,
 			Contact:       contact,
 			Types:         types,
+			Infos:         infos,
 		}
 	}
 

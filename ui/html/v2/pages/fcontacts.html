@@ -74,5 +74,30 @@
                 </form>
             </fieldset>
         </div>
+
+        <div style="margin-top: 40px;">
+            {{if .Infos}}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>E-mail</th>
+                            <th>Phone</th>
+                            <th>Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{range .Infos}}
+                        <tr>
+                            <td>{{.Email}}</td>
+                            <td>{{.Phone}}</td>
+                            <td>{{.TypeDescription}}</td>
+                        </tr>
+                        {{end}}
+                    </tbody>
+                </table>
+            {{else}}
+                <em>Sem info</em>
+            {{end}}
+        </div>
     </div>
 {{end}}
