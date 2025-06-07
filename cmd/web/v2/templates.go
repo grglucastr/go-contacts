@@ -9,3 +9,11 @@ type templateData struct {
 	Types         []models.Type
 	Infos         []models.Info
 }
+
+func (td *templateData) AddInfos(infos []models.Info) {
+	td.Infos = infos
+}
+
+func (td *templateData) AddContact(c models.Contact) {
+	td.Contact = c
+}

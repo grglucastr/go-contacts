@@ -65,24 +65,7 @@ func (app *application) showPageFormContact(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	relationships, err := app.RelationshipModel.ListAll()
-	if err != nil {
-		log.Println(err.Error())
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	types, err := app.TypeModel.ListAll()
-	if err != nil {
-		log.Println(err.Error())
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	data := &templateData{
-		Relationships: relationships,
-		Types:         types,
-	}
+	data := app.LoadTemplateData()
 
 	vars := mux.Vars(r)
 	cId := vars["id"]
@@ -94,27 +77,11 @@ func (app *application) showPageFormContact(w http.ResponseWriter, r *http.Reque
 			return
 		}
 
-		contact, err := app.ContactModel.GetContactById(int32(conId))
+		contact := app.LoadContact(conId)
+		infos := app.LoadInfosByContactId(conId)
 
-		if err != nil {
-			log.Println(err.Error())
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
-		infos, err := app.InfoModel.ListAllByContactsId(conId)
-		if err != nil {
-			log.Println(err.Error())
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
-		data = &templateData{
-			Relationships: relationships,
-			Contact:       contact,
-			Types:         types,
-			Infos:         infos,
-		}
+		data.AddContact(contact)
+		data.AddInfos(infos)
 	}
 
 	err = ts.ExecuteTemplate(w, "base", data)
