@@ -86,11 +86,13 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {{$global := .Contact}}
                         {{range .Infos}}
                         <tr>
                             <td>{{.Email}}</td>
                             <td>{{.Phone}}</td>
                             <td>{{.TypeDescription}}</td>
+                            <td><a href="/dcontacts/{{$global.ID}}/infos/{{.ID}}">Remove</a></td>
                         </tr>
                         {{end}}
                     </tbody>

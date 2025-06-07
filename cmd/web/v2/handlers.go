@@ -230,3 +230,25 @@ func (app *application) deleteContact(w http.ResponseWriter, r *http.Request) {
 
 	http.Redirect(w, r, "/contacts", http.StatusSeeOther)
 }
+
+func (app *application) deleteContactInfo(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	contactId := vars["contactId"]
+	infoId := vars["infoId"]
+
+	infId, err := strconv.Atoi(infoId)
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	_, err = app.InfoModel.DeleteById(infId)
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	http.Redirect(w, r, fmt.Sprintf("/fcontacts/%s", contactId), http.StatusSeeOther)
+}

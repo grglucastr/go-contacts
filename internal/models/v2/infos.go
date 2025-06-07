@@ -62,3 +62,14 @@ func (m *InfoModel) ListAllByContactsId(contactId int) ([]Info, error) {
 
 	return infos, nil
 }
+
+func (m *InfoModel) DeleteById(infoId int) (bool, error) {
+	stmt := "DELETE FROM infos WHERE id  = ?"
+
+	_, err := m.DB.Exec(stmt, infoId)
+	if err != nil {
+		return false, err
+	}
+
+	return true, nil
+}
