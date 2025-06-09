@@ -162,7 +162,7 @@ func (app *application) addContactDetails(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	if id != "" {
+	if id != "0" {
 		infoId, err := strconv.Atoi(id)
 		if err != nil {
 			log.Println(err.Error())
