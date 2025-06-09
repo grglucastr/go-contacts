@@ -88,3 +88,19 @@ func (m *InfoModel) GetById(infoId int) (Info, error) {
 
 	return info, nil
 }
+
+func (m *InfoModel) UpdateInfo(infoId int, email string, phone string, typeId int) (int, error) {
+	stmt := "UPDATE infos SET email = ?, phone = ?, type_id = ? WHERE id = ?"
+
+	res, err := m.DB.Exec(stmt, email, phone, typeId, infoId)
+	if err != nil {
+		return 0, err
+	}
+
+	i, err := res.RowsAffected()
+	if err != nil {
+		return 0, err
+	}
+
+	return int(i), nil
+}

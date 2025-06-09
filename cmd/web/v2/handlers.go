@@ -140,6 +140,7 @@ func (app *application) addContactDetails(w http.ResponseWriter, r *http.Request
 		return
 	}
 
+	id := r.Form.Get("info_id")
 	email := r.Form.Get("email")
 	phone := r.Form.Get("phone")
 	tpId := r.Form.Get("type")
@@ -158,6 +159,19 @@ func (app *application) addContactDetails(w http.ResponseWriter, r *http.Request
 	if err != nil {
 		log.Println(err.Error())
 		http.Error(w, "Bad Request", http.StatusBadRequest)
+		return
+	}
+
+	if id != "" {
+		infoId, err := strconv.Atoi(id)
+		if err != nil {
+			log.Println(err.Error())
+			http.Error(w, "Bad Request", http.StatusBadRequest)
+			return
+		}
+
+		_, err = app.InfoModel.UpdateInfo(infoId, email, phone, typeId)
+		http.Redirect(w, r, fmt.Sprintf("/fcontacts/%d", contactId), http.StatusSeeOther)
 		return
 	}
 
