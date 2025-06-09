@@ -51,19 +51,24 @@
                 <form method="post" action="/api/v2/contacts/{{.Contact.ID}}/details">
                     <div class="inline-element">
                         <label for="email">E-mail:</label>
-                        <input type="email" name="email" id="email">
+                        <input type="email" name="email" id="email" value="{{.Info.Email}}">
                     </div>
 
                     <div class="inline-element">
                         <label for="phone">Phone:</label>
-                        <input type="tel" name="phone" id="phone">
+                        <input type="tel" name="phone" id="phone" value="{{.Info.Phone}}">
                     </div>
 
                     <div class="inline-element">
                         <label for="type">Type:</label>
+                        {{$global := .Info}}
                         <select name="type" id="type">
                             {{range .Types}}
-                                <option value="{{.ID}}">{{.Name}}</option>
+                                {{if eq $global.TypeID .ID}}
+                                    <option value="{{.ID}}" selected>{{.Name}}</option>
+                                {{else}}
+                                    <option value="{{.ID}}">{{.Name}}</option>
+                                {{end}}
                             {{end}}
                         </select>
                     </div>
@@ -92,6 +97,7 @@
                             <td>{{.Email}}</td>
                             <td>{{.Phone}}</td>
                             <td>{{.TypeDescription}}</td>
+                            <td><a href="/fcontacts/{{$global.ID}}/infos/{{.ID}}">Edit</a></td>
                             <td><a href="/dcontacts/{{$global.ID}}/infos/{{.ID}}">Remove</a></td>
                         </tr>
                         {{end}}

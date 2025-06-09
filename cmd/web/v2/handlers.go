@@ -69,19 +69,21 @@ func (app *application) showPageFormContact(w http.ResponseWriter, r *http.Reque
 
 	vars := mux.Vars(r)
 	cId := vars["id"]
-	if len(cId) > 0 {
-		conId, err := strconv.Atoi(cId)
-		if err != nil {
-			log.Println(err.Error())
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
+	infId := vars["infoId"]
 
+	if len(cId) > 0 {
+		conId := app.ConvertToUnsignedInt(cId)
 		contact := app.LoadContact(conId)
 		infos := app.LoadInfosByContactId(conId)
 
 		data.AddContact(contact)
 		data.AddInfos(infos)
+
+		if infId != "" {
+			infoId := app.ConvertToUnsignedInt(infId)
+			selectedInfo := app.LoadSingleInfo(infoId)
+			data.AddSelectedInfo(selectedInfo)
+		}
 	}
 
 	err = ts.ExecuteTemplate(w, "base", data)

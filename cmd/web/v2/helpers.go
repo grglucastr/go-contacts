@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"strconv"
 
 	"github.com/grglucastr/go-contacts/internal/models/v2"
 )
@@ -42,6 +43,14 @@ func (app *application) LoadInfosByContactId(cId int) []models.Info {
 	return infos
 }
 
+func (app *application) LoadSingleInfo(infoId int) models.Info {
+	info, err := app.InfoModel.GetById(infoId)
+	if err != nil {
+		return models.Info{}
+	}
+	return info
+}
+
 func (app *application) LoadContact(cId int) models.Contact {
 	contact, err := app.ContactModel.GetContactById(int32(cId))
 
@@ -50,4 +59,12 @@ func (app *application) LoadContact(cId int) models.Contact {
 		return models.Contact{}
 	}
 	return contact
+}
+
+func (app *application) ConvertToUnsignedInt(str string) int {
+	i, err := strconv.Atoi(str)
+	if err != nil {
+		return -1
+	}
+	return i
 }

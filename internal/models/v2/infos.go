@@ -73,3 +73,18 @@ func (m *InfoModel) DeleteById(infoId int) (bool, error) {
 
 	return true, nil
 }
+
+func (m *InfoModel) GetById(infoId int) (Info, error) {
+	stmt := `SELECT i.id, i.email, i.phone, i.type_id FROM infos i WHERE i.id = ?`
+
+	row := m.DB.QueryRow(stmt, infoId)
+
+	var info Info
+	err := row.Scan(&info.ID, &info.Email, &info.Phone, &info.TypeID)
+
+	if err != nil {
+		return Info{}, err
+	}
+
+	return info, nil
+}
