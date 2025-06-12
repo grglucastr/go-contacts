@@ -36,6 +36,7 @@ func (m *ContactModel) ListAllContacts() ([]Contact, error) {
 	stmt := `
 		SELECT c.id, c.name, c.pix_key, c.relationship_id, r.name as relationship_name FROM contacts c
 		INNER JOIN relationships r ON r.id = c.relationship_id
+		ORDER BY c.id ASC
 	`
 	rows, err := m.DB.Query(stmt)
 	if err != nil {
