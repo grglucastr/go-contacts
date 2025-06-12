@@ -114,6 +114,14 @@ func (app *application) addContact(w http.ResponseWriter, r *http.Request) {
 	name := r.Form.Get("name")
 	pixKey := r.Form.Get("pix_key")
 	relationship_id := r.Form.Get("relationship_id")
+	cId := r.Form.Get("contact_id")
+
+	if cId != "0" {
+		app.editContact(w, r, cId)
+		url := fmt.Sprintf("/fcontacts/%s", cId)
+		http.Redirect(w, r, url, http.StatusSeeOther)
+		return
+	}
 
 	rel_id, err := strconv.Atoi(relationship_id)
 	if err != nil {
@@ -234,4 +242,20 @@ func (app *application) deleteContactInfo(w http.ResponseWriter, r *http.Request
 	}
 
 	http.Redirect(w, r, fmt.Sprintf("/fcontacts/%s", contactId), http.StatusSeeOther)
+}
+
+func (app *application) editContact(w http.ResponseWriter, r *http.Request, contactId string) {
+
+	cId := app.ConvertToUnsignedInt(contactId)
+
+	name := r.Form.Get("name")
+	pixKey := r.Form.Get("pix_key")
+	relationshipId := r.Form.Get("relationship_id")
+	relId := app.ConvertToUnsignedInt(relationshipId)
+
+	_, err := app.ContactModel.UpdateContact(cId, name, pixKey, relId)
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+	}
 }

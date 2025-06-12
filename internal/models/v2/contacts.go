@@ -90,7 +90,7 @@ func (m *ContactModel) DeleteContactById(id int32) error {
 }
 
 func (m *ContactModel) UpdateContact(id int, name string, pixKey string, relationshipId int) (int, error) {
-	stmt := "UPDATE contacts SET name = ?, pixKey =?, relationship_id = ? WHERE id = ?"
+	stmt := "UPDATE contacts SET name = ?, pix_key =?, relationship_id = ? WHERE id = ?"
 
 	result, err := m.DB.Exec(stmt, name, pixKey, relationshipId, id)
 	if err != nil {
